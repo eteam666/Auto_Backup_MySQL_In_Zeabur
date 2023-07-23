@@ -2,6 +2,7 @@ import os
 import mysql.connector
 import boto3
 from datetime import datetime
+import time
 
 # MySQL数据库连接信息
 mysql_host = os.getenv("MYSQL_HOST")
@@ -19,7 +20,7 @@ aws_secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 s3_endpoint = os.getenv("S3_ENDPOINT")
 
 seconds = os.getenv("SECONDS")
-
+seconds = int(seconds)
 
 def get_current_time():
     current_time = datetime.now()
