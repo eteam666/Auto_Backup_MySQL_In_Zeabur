@@ -12,6 +12,7 @@ jedi==0.18.2
 jmespath==1.0.1
 lazy-object-proxy==1.8.0
 mccabe==0.7.0
+mysql-connector==2.2.9
 numpy==1.23.5
 packaging==22.0
 parso==0.8.3
@@ -24,6 +25,8 @@ pyinstaller==5.3
 pyinstaller-hooks-contrib==2022.14
 pylint==2.15.8
 python-dateutil==2.8.2
+python-lsp-jsonrpc==1.0.0
+python-lsp-server @ file:///python_lsp_server-1.4.3-py3-none-any.whl
 pytoolconfig==1.2.4
 rope==1.5.1
 s3transfer==0.6.1
