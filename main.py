@@ -11,7 +11,6 @@ mysql_username = os.getenv("MYSQL_USERNAME")
 mysql_password = os.getenv("MYSQL_PASSWORD")
 mysql_database = os.getenv("MYSQL_DATABASE")
 
-
 # AWS S3配置信息
 aws_region = os.getenv("AWS_REGION")
 s3_bucket = os.getenv("S3_BUCKET_NAME")
@@ -28,6 +27,7 @@ def get_current_time():
     return formatted_time
 
 def backup_and_upload_to_s3():
+    conn = None
     try:
         # 连接到MySQL数据库
         conn = mysql.connector.connect(
@@ -35,7 +35,8 @@ def backup_and_upload_to_s3():
             port=mysql_port,
             user=mysql_username,
             password=mysql_password,
-            database=mysql_database
+            database=mysql_database,
+            auth_plugin='mysql_native_password'  # 使用mysql_native_password认证插件
         )
 
         # 创建MySQL游标对象
@@ -47,7 +48,7 @@ def backup_and_upload_to_s3():
         time_with_underscore = get_current_time()
         backup_filename = f"{time_with_underscore}_backup.sql"
         # 执行查询，将结果写入备份文件
-        with open(backup_file, 'w') as f:
+        with open(backup_filename, 'w') as f:
             for table in tables:
                 cursor.execute(f"SELECT * FROM {table};")
                 rows = cursor.fetchall()
@@ -70,15 +71,18 @@ def backup_and_upload_to_s3():
         time_with_underscore = get_current_time()
         s3_object_key = f"{time_with_underscore}_backup.sql"
 
-        with open(backup_file, 'rb') as file:
+        with open(backup_filename, 'rb') as file:
             s3_client.upload_fileobj(file, s3_bucket, s3_object_key)
 
         print("备份文件上传到S3成功！")
     except Exception as e:
         print(f"出现错误：{e}")
+        # 记录错误日志
+        with open("error_log.txt", "a") as log_file:
+            log_file.write(f"出现错误：{e}\n")
     finally:
         # 关闭数据库连接
-        if conn.is_connected():
+        if conn is not None and conn.is_connected():
             cursor.close()
             conn.close()
 
@@ -91,5 +95,6 @@ if __name__ == "__main__":
             print("上传结束")
     except KeyboardInterrupt:
         print("脚本已手动停止")
+
 
 
