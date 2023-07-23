@@ -45,6 +45,10 @@ def backup_and_upload_to_s3():
 
 if __name__ == "__main__":
     try:
+        cmd = ("sudo apt-get update")
+        subprocess.run(cmd, shell=True, check=True)
+        cmd = ("sudo apt-get install mysql-client")
+        subprocess.run(cmd, shell=True, check=True)
         while True:
             print("开始上传")
             sleep(seconds)
