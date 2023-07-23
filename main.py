@@ -2,6 +2,7 @@ import os
 import subprocess
 import boto3
 from time import sleep
+seconds = os.getenv("TIME")
 
 def get_current_time():
     # 获取当前时间
@@ -12,7 +13,6 @@ def get_current_time():
 
     return formatted_time
 def backup_and_upload_to_s3():
-    seconds = os.getenv("TIME")
     mysql_host = os.getenv("MYSQL_HOST")
     mysql_port = os.getenv("MYSQL_PORT")
     mysql_username = os.getenv("MYSQL_USERNAME")
