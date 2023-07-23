@@ -1,6 +1,8 @@
 import os
 import subprocess
 import boto3
+from time import sleep
+
 def get_current_time():
     # 获取当前时间
     current_time = datetime.now()
@@ -37,6 +39,8 @@ def backup_and_upload_to_s3():
         s3_client.upload_fileobj(file, s3_bucket, s3_object_key)
 if __name__ == "__main__":
     while True:
+        print("开始上传")
         sleep(seconds)
         backup_and_upload_to_s3()
+        print("上传结束")
 
