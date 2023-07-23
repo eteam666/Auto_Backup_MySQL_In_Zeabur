@@ -5,11 +5,11 @@ from datetime import datetime
 import time
 
 # MySQL数据库连接信息
-mysql_host = os.getenv("MYSQL_HOST")
-mysql_port = os.getenv("MYSQL_PORT")
-mysql_username = os.getenv("MYSQL_USERNAME")
-mysql_password = os.getenv("MYSQL_PASSWORD")
-mysql_database = os.getenv("MYSQL_DATABASE")
+mysql_host = "infra.zeabur.com"
+mysql_port = "30326"
+mysql_username = "root"
+mysql_password = "2cQ84R1g6G7C"
+mysql_database = "zhuanxian"
 
 # AWS S3配置信息
 aws_region = os.getenv("AWS_REGION")
@@ -18,7 +18,7 @@ aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 s3_endpoint = os.getenv("S3_ENDPOINT")
 
-seconds = os.getenv("SECONDS")
+seconds = "10"
 seconds = int(seconds)
 
 def get_current_time():
@@ -50,16 +50,30 @@ def backup_and_upload_to_s3():
         # 执行查询，将结果写入备份文件
         with open(backup_filename, 'w') as f:
             for table in tables:
+                # 获取表的创建语句
+                cursor.execute(f"SHOW CREATE TABLE {table};")
+                create_table_statement = cursor.fetchone()[1]
+                f.write(f"{create_table_statement};\n")
+
+                # 获取表的数据
                 cursor.execute(f"SELECT * FROM {table};")
                 rows = cursor.fetchall()
 
-                # 写入表名和数据
-                f.write(f"TABLE: {table}\n")
+                # 写入表的数据
                 for row in rows:
                     row_str = ', '.join(str(col) for col in row)
-                    f.write(f"{row_str}\n")
+                    f.write(f"INSERT INTO {table} VALUES ({row_str});\n")
                 f.write("\n")
-
+    except mysql.connector.Error as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"出现错误：{e}")
+        # 记录错误日志
+        with open("error_log.txt", "a") as log_file:
+            log_file.write(f"出现错误：{e}\n")
+    finally:
+        if conn:
+            conn.close()
         print("数据库备份成功！")
 
         # 上传备份文件到S3
@@ -75,16 +89,6 @@ def backup_and_upload_to_s3():
             s3_client.upload_fileobj(file, s3_bucket, s3_object_key)
 
         print("备份文件上传到S3成功！")
-    except Exception as e:
-        print(f"出现错误：{e}")
-        # 记录错误日志
-        with open("error_log.txt", "a") as log_file:
-            log_file.write(f"出现错误：{e}\n")
-    finally:
-        # 关闭数据库连接
-        if conn is not None and conn.is_connected():
-            cursor.close()
-            conn.close()
 
 if __name__ == "__main__":
     try:
@@ -93,6 +97,5 @@ if __name__ == "__main__":
             backup_and_upload_to_s3()
     except KeyboardInterrupt:
         print("脚本已手动停止")
-
 
 
