@@ -41,7 +41,7 @@ def backup_and_upload_to_s3():
 
         # 创建MySQL游标对象
         cursor = conn.cursor()
-
+        print("导出文件中.....")
         # 获取数据库中所有表名
         cursor.execute("SHOW TABLES;")
         tables = [table[0] for table in cursor]
@@ -90,9 +90,7 @@ if __name__ == "__main__":
     try:
         while True:
             time.sleep(seconds)  # 备份间隔时间，单位为秒
-            print("开始备份")
             backup_and_upload_to_s3()
-            print("上传结束")
     except KeyboardInterrupt:
         print("脚本已手动停止")
 
