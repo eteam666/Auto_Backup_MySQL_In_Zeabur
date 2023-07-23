@@ -13,11 +13,13 @@ jmespath==1.0.1
 lazy-object-proxy==1.8.0
 mccabe==0.7.0
 mysql-connector==2.2.9
+mysql-connector-python==8.1.0
 numpy==1.23.5
 packaging==22.0
 parso==0.8.3
 platformdirs==2.6.0
 pluggy==1.0.0
+protobuf==4.21.12
 pycodestyle==2.9.1
 pydocstyle==6.1.1
 pyflakes==2.5.0
