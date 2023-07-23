@@ -8,3 +8,4 @@
 * S3_BUCKET_NAME：存储桶名称
 * S3_ENDPOINT:存储桶端点
 * SECONDS:自动备份的时间（单位：秒）
+## **填写完后记得Redeploy**
