@@ -3,7 +3,7 @@ import subprocess
 import boto3
 from time import sleep
 seconds = os.getenv("TIME")
-
+seconds = int(seconds)
 def get_current_time():
     # 获取当前时间
     current_time = datetime.now()
