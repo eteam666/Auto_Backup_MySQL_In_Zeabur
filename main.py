@@ -3,14 +3,11 @@ import subprocess
 import boto3
 from time import sleep
 seconds = os.getenv("TIME")
-
 def get_current_time():
     # 获取当前时间
     current_time = datetime.now()
-
     # 将空格替换为下划线
     formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-
     return formatted_time
 def backup_and_upload_to_s3():
     mysql_host = os.getenv("MYSQL_HOST")
