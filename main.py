@@ -85,7 +85,7 @@ def backup_and_upload_to_s3():
 if __name__ == "__main__":
     try:
         while True:
-            sleep(seconds)  # 备份间隔时间，单位为秒
+            time.sleep(seconds)  # 备份间隔时间，单位为秒
             print("开始备份")
             backup_and_upload_to_s3()
             print("上传结束")
