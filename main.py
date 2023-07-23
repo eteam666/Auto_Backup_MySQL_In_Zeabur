@@ -17,7 +17,10 @@ s3_bucket = os.getenv("S3_BUCKET_NAME")
 aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 s3_endpoint = os.getenv("S3_ENDPOINT")
+<<<<<<< HEAD
 seconds = os.getenv("SECONDS")
+=======
+>>>>>>> master
 
 def get_current_time():
     current_time = datetime.now()
@@ -88,4 +91,5 @@ if __name__ == "__main__":
             print("上传结束")
     except KeyboardInterrupt:
         print("脚本已手动停止")
+
 
