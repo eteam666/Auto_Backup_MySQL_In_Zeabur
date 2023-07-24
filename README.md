@@ -1,4 +1,6 @@
 # 在Zeabur上临时的MySQL自动备份工具
+# 在Zeabur中部署
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://dash.zeabur.com/templates/FNGH21)
 ## 安全起见，所有数据需要**添加到变量**
 ## 变量们
 * MYSQL_DATABASE：数据库名称
