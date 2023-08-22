@@ -4,12 +4,7 @@ import boto3
 from datetime import datetime
 import time
 
-# MySQL数据库连接信息
-mysql_host = "infra.zeabur.com"
-mysql_port = "30326"
-mysql_username = "root"
-mysql_password = "2cQ84R1g6G7C"
-mysql_database = "zhuanxian"
+
 
 # AWS S3配置信息
 aws_region = os.getenv("AWS_REGION")
